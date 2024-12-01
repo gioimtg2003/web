@@ -1,16 +1,27 @@
 import React from 'react'
-import home_icon from './home.jpg'
-import img1 from './img1.jpg'
-import img2 from './img2.jpg'
+import {assets} from '../assets/assets'
+
 
 const Sidebar = () => {
   return (
     <div className='w-[25%] h-full p-2 flex-col gap-2 text-white hidden lg:flex'>
       <div className='bg-[#121212] h-[15%] rounded flex flex-col justify-around'>
         <div className='flex items-center gap-3 pl-8 cursor-pointer'>
-          <img src={houseIcon} alt="Ikona Home" className='w-6 h-6' />
+          <img  className='w-6' src={assets.home_icon} alt="Ikona Home" />
           <p className='font-bold'>Home</p>
         </div>
+        <div className='flex items-center gap-3 pl-8 cursor-pointer'>
+          <img  className='w-6' src={assets.browse_icon} alt="Ikona Browse" />
+          <p className='font-bold'>Browse</p>
+        </div>
+      </div>
+      <div className='bg-[#121212] h-[85%] rounded'>
+      <div className='p-4 flex items-center justify-between'>
+        <div className='flex items-center gap-3'>
+          <img className='w-8' src={assets.stack_icon} alt="Ikona Library" />
+          <p className='font-semibold'>Your library</p>
+        </div>
+      </div>
       </div>
     </div>
   );
