@@ -42,8 +42,5 @@ export const albumsData =[
       bgColor:"#22543d"
         
     },
-    {
-
-    }
-
-]
+    
+  ]
