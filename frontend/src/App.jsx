@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from './components/Sidebar'
 import Player from './components/Player'
-import Display from "./assets/Display";
+import Display from "./components/Display";
 
 
 const App = () => {
