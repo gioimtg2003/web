@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { albumsData } from '../assets/assets'
 import { songsData } from '../assets/assets'
 import { assets } from '../assets/assets'
-import { PlayerContext } from './PlayerContext'
+import { PlayerContext } from '../context/PlayerContext'
 
 const DisplayAlbum = () => {
 
