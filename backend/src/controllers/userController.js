@@ -2,6 +2,10 @@ import userModel from "../models/User.js";
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
 
+
+
+
+
 // Get all users
 export const getUsers = async (req, res) => {
   try {
@@ -24,7 +28,7 @@ export const getUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findById(id);
+    const user = await userModel.findById(id);
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -38,33 +42,69 @@ export const getUser = async (req, res) => {
 
 // Create a new user
 export const createUser = async (req, res) => {
+  console.log('Request body received', req.body);
+
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
-    return res.status(400).json({
-      error: "Please provide all required fields: name, email, password",
-    });
+    return res.status(400).json({ error: true, message: 'All fields are required' });
   }
 
   try {
-    // Hash the password before saving
-    const salt = await bcrypt.genSalt(12);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const existingUser = await userModel.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ error: true, message: 'Email already exists' });
+    }
 
-    const user = await userModel.create({
+    const hashedPassword = await bcrypt.hash(password, 12);
+    console.log('Hashed password', hashedPassword);
+
+    const newUser = new userModel({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
-    res.status(201).json({
-      message: "User created successfully",
-      user: { id: user._id, name: user.name, email: user.email },
+    const savedUser = await newUser.save();
+    return res.status(201).json({
+      success: true,
+      message: 'Signup successful',
+      user: { id: savedUser._id, name: savedUser.name, email: savedUser.email },
     });
-  } catch (error) {
-    res
-      .status(400)
-      .json({ error: "Error creating user", details: error.message });
+  } catch (err) {
+    console.error('Error during signup', err.message);
+    return res.status(500).json({ error: true, message: 'Server error', details: err.message });
+  }
+};
+
+// Login a user
+export const login = async (req, res) => {
+  const { email, password: inputPassword } = req.body;
+
+  if (!email || !inputPassword) {
+    return res.status(400).json({ error: true, message: 'Email and password are required' });
+  }
+
+  try {
+    const user = await userModel.findOne({ email });
+    console.log('Database user data:', user);
+
+    if (!user) {
+      return res.status(400).json({ success: false, message: 'Invalid email or password' });
+    }
+
+    const isPasswordValid = await user.isValidPassword(inputPassword);
+    console.log('Password comparison result:', isPasswordValid);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ success: false, message: 'Invalid email or password' });
+    }
+
+    const { password, ...userWithoutPassword } = user.toObject();
+    return res.status(200).json({ success: true, message: 'Login successful', user: userWithoutPassword });
+  } catch (err) {
+    console.log('Error during login', err.message);
+    return res.status(500).json({ error: true, message: 'Server error', details: err.message });
   }
 };
 
@@ -121,3 +161,4 @@ export const updateUser = async (req, res) => {
       .json({ message: "Error updating user", error: error.message });
   }
 };
+

@@ -17,7 +17,7 @@ export const Navbar = () => {
             < p className='bg-white text-black text-[15px] px-4 py-1 rounded -2x1 hidden md:block cursor-pointer'>Explorer Premium </p>
             <p className='bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer
             '>Install App</p>
-            <p onClick={()=>navigate('/Login')} className='bg-purple-500  text-black w-7 h-7 rounded-full flex items-center justify-center'>V</p>
+            <p onClick={()=>navigate('/signup')} className='bg-purple-500  text-black w-7 h-7 rounded-full flex items-center justify-center'>V</p>
             </div>
         </div>
         <div className='flex items-center gap-2 mt-4'>

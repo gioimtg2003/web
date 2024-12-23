@@ -51,4 +51,15 @@ const removeSong = async (req,res) =>{
     }
 }
 
-export {addSong, listSong, removeSong}
+const updateSong = async (req, res) => {
+    try {
+      const { id, name, album } = req.body;
+      await songModel.findByIdAndUpdate(id, { name, album });
+      res.json({ success: true, message: 'Song updated successfully' });
+    } catch (error) {
+      res.json({ success: false, message: 'Failed to update song' });
+    }
+  };
+  
+
+export {addSong, listSong, removeSong, updateSong}

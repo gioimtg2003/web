@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from "./Navbar";
-import { albumsData } from "../assets/assets";  // Përdorni ../ për të kaluar një nivel lart
+import { albumsData } from "../assets/assets";  
 import AlbumItems from './AlbumItems';
 import { songsData } from '../assets/assets';
 import SongItem from './SongItem';
