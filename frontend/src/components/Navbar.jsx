@@ -1,12 +1,14 @@
 import React from 'react'
 import { assets } from '../assets/assets'
-import { useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export const Navbar = () => {
   const navigate =useNavigate()
   return (
     <> 
     <div  className='w-full flex justify-between items-center font-semibold'>
+      
        <div className='flex items-center gap-2 '>
         <img  onClick={()=> navigate(-1)}className='w-8 bg-black p-2 roundex-2x1 cursor-pointer'src={assets.arrow_left} alt="" />
         <img   onClick={()=> navigate(+1)}className ='w-8 bg-black p-2 roundex-2x1 cursor-pointer'src={assets.arrow_right} alt="" />
@@ -15,7 +17,7 @@ export const Navbar = () => {
             < p className='bg-white text-black text-[15px] px-4 py-1 rounded -2x1 hidden md:block cursor-pointer'>Explorer Premium </p>
             <p className='bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer
             '>Install App</p>
-            <p className='bg-purple-500  text-black w-7 h-7 rounded-full flex items-center justify-center'>V</p>
+            <p onClick={()=>navigate('/Login')} className='bg-purple-500  text-black w-7 h-7 rounded-full flex items-center justify-center'>V</p>
             </div>
         </div>
         <div className='flex items-center gap-2 mt-4'>
