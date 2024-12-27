@@ -31,11 +31,12 @@ const Display = () => {
         >
          
             <Routes>
+            
                 <Route path='/signup' element={<Signup/>} />
                 <Route path='/login' element={<Login/>}/>
                 <Route path="/" element={<DisplayHome />} />
                 <Route path="/album/:id" element={<DisplayAlbum />} />
-            </Routes>
+                </Routes> 
         </div>
     );
 };

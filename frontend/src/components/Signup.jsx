@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import Validation from './SignupValidation'
@@ -9,7 +9,6 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
-  
 
   const handleInput = (event) => {
     setValues(prev => ({ ...prev, [event.target.name]: event.target.value }));

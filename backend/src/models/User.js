@@ -1,28 +1,34 @@
 // In models/User.js
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import { type } from "os";
 
 const UserSchema = new mongoose.Schema({
-    name: {type: String, required: true},
-    email: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+ // role: { type: Number, default: "User" },
+ //resetPasswordToken:String,
+ //resetPasswordExpiresAt:Date,
+ //verificationToken:String,
+ //verificationTokenExpiresAt:Date,//prej videos
 });
 
 // Pre-save hook for password hashing
-UserSchema.pre('save', async function(next) {
-    if (!this.isModified('password')) {
-        return next();
-    }
-    const salt = await bcrypt.genSalt(12);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
+UserSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
+  }
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
 });
 
 // Method to check password validity
-UserSchema.methods.isValidPassword = async function(password) {
-    return bcrypt.compare(password, this.password);
+UserSchema.methods.isValidPassword = async function (password) {
+  return bcrypt.compare(password, this.password);
 };
 
-const userModel = mongoose.models.User || mongoose.model('User', UserSchema)
+const userModel = mongoose.models.User || mongoose.model("User", UserSchema);
 
-export default userModel
+export default userModel;

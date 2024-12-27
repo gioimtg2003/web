@@ -6,7 +6,8 @@ import connectDB from "./src/config/mongodb.js";
 import connectCloudinary from "./src/config/cloudinary.js";
 import albumRouter from "./src/routes/albumRoute.js";
 import userRoute from "./src/routes/userRoute.js";
-// app config
+import loginRouter from "./src/routes/login.js";
+//import authRoutes from "./src/routes/authRoutes.js"; //prejvideos
 
 const app = express();
 const port = process.env.PORT || 4000;
@@ -22,6 +23,8 @@ app.use(cors());
 app.use("/api/song", songRouter);
 app.use("/api/album", albumRouter);
 app.use("/api/users", userRoute); // Mount the routes with '/api' prefix
+app.use("/auth", loginRouter);
+//app.use("/api/auth",authRoutes); // prej vidoes
 
 app.get("/", (req, res) => res.send("API working"));
 

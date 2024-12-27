@@ -1,6 +1,8 @@
 import userModel from "../models/User.js";
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import { generateToken } from "../utils/jwtUtils.js";
+//const {generateToken} = require ('../utils/jwtUtils.js');
 
 
 
