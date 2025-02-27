@@ -9,7 +9,7 @@ const App = () => {
 
     return (
         <div className="h-screen bg-black">
-            {songsData.lenght === 0 ? (
+            {songsData.length > 0 ? (
                 <>
                     <div className="h-[90%] flex">
                         <Sidebar />
@@ -18,7 +18,6 @@ const App = () => {
                     <Player />
                 </>
             ) : null}
-            <p>Now playing: {track ? track.title : "Nothing"}</p>
             <audio
                 ref={audioRef}
                 src={track ? track.file : ""}

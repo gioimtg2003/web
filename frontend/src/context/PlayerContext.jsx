@@ -2,6 +2,7 @@ import { createContext, useState, useRef, useEffect } from "react";
 import axios from "axios";
 
 import PropTypes from "prop-types";
+import { Outlet } from "react-router-dom";
 
 export const PlayerContext = createContext();
 
@@ -135,7 +136,7 @@ const PlayerContextProvider = (props) => {
     };
     return (
         <PlayerContext.Provider value={contextValue}>
-            {props.children}
+            {props?.children ? props?.children : <Outlet />}
         </PlayerContext.Provider>
     );
 };

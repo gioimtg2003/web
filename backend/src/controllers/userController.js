@@ -9,6 +9,11 @@ import { generateToken } from "../utils/jwtUtils.js";
 
 
 // Get all users
+
+export const meProfile = async (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+};
 export const getUsers = async (req, res) => {
   try {
     const users = await userModel.find({}).sort({ createdAt: -1 });
