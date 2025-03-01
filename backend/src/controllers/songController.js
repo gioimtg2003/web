@@ -61,5 +61,16 @@ const updateSong = async (req, res) => {
     }
 };
 
+const searchSongs = async (req, res) => {
+    try {
+        const search = req.query.search;
+        const songs = await songModel.find({ name: { $regex: search, $options: 'i' } });
+        res.json({ success: true, songs });
+    } catch (error) {
+        res.json({ success: false });
+    }
+}
 
-export { addSong, listSong, removeSong, updateSong }
+
+
+export { addSong, listSong, removeSong, updateSong, searchSongs }

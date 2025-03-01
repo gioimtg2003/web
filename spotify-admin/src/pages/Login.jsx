@@ -2,6 +2,10 @@ import { Button, Form, Input, Typography } from "antd";
 
 const { Title } = Typography;
 export default function Login() {
+    const onFinish = (values) => {
+        try {
+        } catch (error) {}
+    };
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-200 p-4">
             <div className="w-full max-w-md p-8 rounded-lg shadow-lg bg-gray-50 shadow-gray-800">
@@ -23,6 +27,7 @@ export default function Login() {
                     initialValues={{ remember: true }}
                     layout="vertical"
                     size="large"
+                    onFinish={onFinish}
                 >
                     <Form.Item
                         name="email"

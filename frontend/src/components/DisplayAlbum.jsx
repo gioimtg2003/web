@@ -1,12 +1,11 @@
-import { useContext, useState } from "react";
 import PropTypes from "prop-types";
-import Navbar from "./Navbar";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
-import { useEffect } from "react";
+import Navbar from "./Navbar";
 
-const DisplayAlbum = ({ album }) => {
+const DisplayAlbum = () => {
     const { id } = useParams();
     const [albumData, setAlbumData] = useState("");
     const { playWithId, albumsData, songsData } = useContext(PlayerContext);
@@ -24,7 +23,7 @@ const DisplayAlbum = ({ album }) => {
             <Navbar />
             <div className="mt-10 flex gap-8 flex-col md:flex-row md:items-end">
                 <img className="w-50 rounded" src={albumData.image} alt="" />
-                <div className="flex flex-col">
+                <div className="flex flex-col text-white">
                     <p>Playlist</p>
                     <h2 className="text-6xl font-bold mb-4 md:text-7xl">
                         {albumData.name}
@@ -42,7 +41,7 @@ const DisplayAlbum = ({ album }) => {
             </div>
             <hr />
             {songsData
-                .filter((item) => item.album === album.name)
+                .filter((item) => item.album === albumData.name)
                 .map((item, index) => (
                     <div
                         onClick={() => playWithId(item.id)}

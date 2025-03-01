@@ -108,7 +108,7 @@ export const login = async (req, res) => {
     }
 
     const { password, ...userWithoutPassword } = user.toObject();
-    return res.status(200).json({ success: true, message: 'Login successful', user: userWithoutPassword });
+    return res.status(200).json({ success: true, message: 'Login successful', token: generateToken(userWithoutPassword) });
   } catch (err) {
     console.log('Error during login', err.message);
     return res.status(500).json({ error: true, message: 'Server error', details: err.message });
@@ -168,4 +168,50 @@ export const updateUser = async (req, res) => {
       .json({ message: "Error updating user", error: error.message });
   }
 };
+
+
+export const addFavoriteSong = async (req, res) => {
+  const { id } = req.params;
+  const { songId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Invalid user ID" });
+  }
+
+  try {
+    const user = await userModel.findById(id);
+    if
+      (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    if (user.favoriteSongs.includes(songId)) {
+      return res.status(400).json({ error: "Song already in favorites" });
+    }
+    user.favoriteSongs.push(songId);
+    await user.save();
+    res.status(200).json({ message: "Song added to favorites" });
+  }
+  catch (error) {
+    res.status(500).json({ message: "Error adding song to favorites", error: error.message });
+  }
+}
+
+export const getFavoriteSongs = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Invalid user ID" });
+  }
+
+  try {
+    const user = await userModel.findById(id).populate("favoriteSongs");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user.favoriteSongs);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching favorite songs", error: error.message });
+  }
+}
+
 

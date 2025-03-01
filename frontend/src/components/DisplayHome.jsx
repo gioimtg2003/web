@@ -6,7 +6,7 @@ import { PlayerContext } from "../context/PlayerContext";
 
 const DisplayHome = () => {
     const { songsData, albumsData } = useContext(PlayerContext);
-    console.log(songsData);
+
     return (
         <>
             <Navbar />
@@ -15,7 +15,7 @@ const DisplayHome = () => {
                     Featured Charts
                 </h1>
                 <div className="flex overflow-auto ">
-                    {albumsData.map((item, index) => (
+                    {(albumsData ?? []).map((item, index) => (
                         <AlbumItems
                             key={index}
                             name={item.name}
@@ -31,7 +31,7 @@ const DisplayHome = () => {
                     Today&apos;s Hits
                 </h1>
                 <div className="flex overflow-auto ">
-                    {songsData.map((item, index) => (
+                    {(songsData ?? []).map((item, index) => (
                         <SongItem
                             key={index}
                             name={item.name}

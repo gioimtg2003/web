@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '8h' });
 };
 
 exports.login = async (req, res) => {
@@ -25,14 +25,14 @@ exports.login = async (req, res) => {
 exports.signup = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const existingUser = await User.findOne({ email });  // e kerkon njs user sipas emailit
+    const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ success: false, message: 'User already exists' });
 
     const newUser = new User({ email, password });
     await newUser.save();
 
     const token = generateToken(newUser._id);
-    
+
     res.status(201).json({ success: true, token, message: 'Signup successful' });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Server error' });

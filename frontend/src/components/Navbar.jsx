@@ -1,7 +1,5 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 export const Navbar = () => {
     const navigate = useNavigate();
@@ -26,10 +24,7 @@ export const Navbar = () => {
                     <p className="bg-white text-black text-[15px] px-4 py-1 rounded -2x1 hidden md:block cursor-pointer">
                         Explorer Premium{" "}
                     </p>
-                    <p
-                        className="bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer
-            "
-                    >
+                    <p className="bg-black py-1 px-3 rounded-2xl text-[15px] cursor-pointer text-white">
                         Install App
                     </p>
                     <p

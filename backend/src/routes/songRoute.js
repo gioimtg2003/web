@@ -2,6 +2,7 @@ import {
   addSong,
   listSong,
   removeSong,
+  searchSongs,
   updateSong,
 } from "../controllers/songController.js";
 import express from "express";
@@ -21,5 +22,6 @@ songRouter.post(
 songRouter.get("/list", listSong);
 songRouter.post("/remove", removeSong);
 songRouter.post("/update", updateSong);
+songRouter.get("/search", searchSongs);
 
 export default songRouter;

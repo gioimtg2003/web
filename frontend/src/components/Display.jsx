@@ -1,8 +1,8 @@
 import { useContext, useEffect, useRef } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
-import DisplayHome from "./DisplayHome";
-import DisplayAlbum from "./DisplayAlbum";
 import { PlayerContext } from "../context/PlayerContext";
+import DisplayAlbum from "./DisplayAlbum";
+import DisplayHome from "./DisplayHome";
 
 const Display = () => {
     const { albumsData } = useContext(PlayerContext);
@@ -27,7 +27,7 @@ const Display = () => {
     return (
         <div
             ref={displayRef}
-            className="w-[100%]m-2 px-6 pt-4 rounded bg-[#121212]text-white overflow-auto lg:w-[75%]lg"
+            className="w-[100%]m-2 px-6 pt-4 rounded bg-[#121212] text-white overflow-auto lg:w-[75%]lg"
         >
             {albumsData.length > 0 ? (
                 <Routes>
