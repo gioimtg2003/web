@@ -8,6 +8,7 @@ import { ConfigProvider } from "antd";
 import AddSong from "./pages/AddSong.jsx";
 import ListSong from "./pages/ListSong.jsx";
 import ListAlbum from "./pages/ListAlbum.jsx";
+import ListUser from "./pages/ListUser.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -35,6 +36,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                             path="/list-album"
                             element={<ListAlbum />}
                             key="list-album"
+                        />
+                        <Route
+                            path="/list-user"
+                            element={<ListUser />}
+                            key="list-user"
                         />
                     </Route>
                     <Route path="/login" element={<Login />} />

@@ -16,7 +16,7 @@ export const meProfile = async (req, res) => {
 };
 export const getUsers = async (req, res) => {
   try {
-    const users = await userModel.find({}).sort({ createdAt: -1 });
+    const users = await userModel.find({}, { name: 1, email: 1, _id: 1 }).sort({ createdAt: -1 });
     console.log("Users fetched:", users);
     res.status(200).json(users);
   } catch (error) {

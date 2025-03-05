@@ -1,9 +1,14 @@
+import dayjs from "dayjs";
+import "dayjs/locale/vi"; // Sử dụng tiếng Việt
+import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { PlayerContext } from "../context/PlayerContext";
 import Navbar from "./Navbar";
+dayjs.extend(relativeTime);
+dayjs.locale("vi");
 
 const DisplayAlbum = () => {
     const { id } = useParams();
@@ -44,7 +49,7 @@ const DisplayAlbum = () => {
                 .filter((item) => item.album === albumData.name)
                 .map((item, index) => (
                     <div
-                        onClick={() => playWithId(item.id)}
+                        onClick={() => playWithId(item._id)}
                         key={index}
                         className="grid grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer"
                     >
@@ -59,7 +64,7 @@ const DisplayAlbum = () => {
                         </p>
                         <p className="text-[15px]">{albumData.name}</p>
                         <p className="text-[15px] hidden sm:block">
-                            5 days ago
+                            {dayjs(item?.createdAt ?? "25/02/2025").fromNow()}
                         </p>
                         <p className="text-[15px] text-center">
                             {item.duration}

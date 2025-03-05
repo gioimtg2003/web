@@ -1,5 +1,5 @@
-import { createContext, useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { createContext, useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
 import { Outlet } from "react-router-dom";
@@ -14,6 +14,8 @@ const PlayerContextProvider = (props) => {
     const url = "http://localhost:4000";
 
     const [songsData, setSongsData] = useState([]);
+    const [user, setUser] = useState();
+    const [searchSongsData, setSearchSongsData] = useState([]);
     const [albumsData, setAlbumsData] = useState([]);
     const [track, setTrack] = useState(songsData[0]);
     const [playStatus, setPlayStatus] = useState(false);
@@ -27,6 +29,16 @@ const PlayerContextProvider = (props) => {
             minute: 0,
         },
     });
+    const handleSearchSong = (value) => {
+        if (value === "") {
+            setSearchSongsData([]);
+            return;
+        }
+        const searchResult = songsData.filter((item) =>
+            item.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setSearchSongsData(searchResult);
+    };
     const play = () => {
         audioRef.current.play();
         setPlayStatus(true);
@@ -132,7 +144,11 @@ const PlayerContextProvider = (props) => {
         next,
         seekSong,
         songsData,
+        searchSongsData,
+        handleSearchSong,
         albumsData,
+        setUser,
+        user,
     };
     return (
         <PlayerContext.Provider value={contextValue}>

@@ -1,6 +1,7 @@
 import React from "react";
 import { assets } from "../assets/assets";
 import { NavLink } from "react-router-dom";
+import { BiUserCircle } from "react-icons/bi";
 
 const Sidebar = () => {
     return (
@@ -39,6 +40,13 @@ const Sidebar = () => {
                 >
                     <img src={assets.album_icon} className="w-5" alt="" />
                     <p className="hidden sm:block">List Album</p>
+                </NavLink>
+                <NavLink
+                    to="list-user"
+                    className="flex items-center gap-2.5 text-gray-800 bg-white border border-black p-2 pr-[max(8vw,10px)] drop-shadow-[-4px_4px_#00FF5B] text-sm font-medium"
+                >
+                    <BiUserCircle size={20} />
+                    <p className="hidden sm:block">List User</p>
                 </NavLink>
             </div>
         </div>
