@@ -1,4 +1,5 @@
-import { Tooltip } from "antd";
+import { message, Tooltip } from "antd";
+import axios from "axios";
 import { useContext } from "react";
 import { BiPlayCircle, BiPlus } from "react-icons/bi";
 import { FiMoreHorizontal } from "react-icons/fi";
@@ -8,11 +9,43 @@ import Navbar from "./Navbar";
 import SongItem from "./SongItem";
 
 const DisplayHome = () => {
-    const { songsData, albumsData, searchSongsData, playWithId } =
-        useContext(PlayerContext);
+    const {
+        songsData,
+        albumsData,
+        searchSongsData,
+        playWithId,
+        fetchPlayList,
+    } = useContext(PlayerContext);
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const addPlaylist = async (id) => {
+        try {
+            await axios.post(
+                "http://localhost:4000/api/users/playlist",
+                {
+                    songId: id,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            messageApi.open({
+                type: "success",
+                content: "Thêm vào playlist thành công",
+            });
+            fetchPlayList();
+        } catch {
+            /* empty */
+        }
+    };
 
     return (
         <>
+            {contextHolder}
             <Navbar />
             {searchSongsData.length > 0 ? (
                 <div className="bg-black min-h-screen text-white p-4">
@@ -55,7 +88,12 @@ const DisplayHome = () => {
 
                                     <div className="flex items-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Tooltip title="Add favorite">
-                                            <button className="text-zinc-400 hover:text-white">
+                                            <button
+                                                className="text-zinc-400 hover:text-white"
+                                                onClick={() =>
+                                                    addPlaylist(song._id)
+                                                }
+                                            >
                                                 <BiPlus className="w-5 h-5" />
                                             </button>
                                         </Tooltip>

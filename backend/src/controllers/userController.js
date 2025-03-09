@@ -171,7 +171,7 @@ export const updateUser = async (req, res) => {
 
 
 export const addFavoriteSong = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
   const { songId } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -197,7 +197,7 @@ export const addFavoriteSong = async (req, res) => {
 }
 
 export const getFavoriteSongs = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ error: "Invalid user ID" });

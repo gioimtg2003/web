@@ -14,6 +14,7 @@ const PlayerContextProvider = (props) => {
     const url = "http://localhost:4000";
 
     const [songsData, setSongsData] = useState([]);
+    const [playList, setPlayList] = useState([]);
     const [user, setUser] = useState();
     const [searchSongsData, setSearchSongsData] = useState([]);
     const [albumsData, setAlbumsData] = useState([]);
@@ -100,6 +101,20 @@ const PlayerContextProvider = (props) => {
             /* empty */
         }
     };
+
+    const fetchPlayList = async () => {
+        try {
+            const response = await axios.get(`${url}/api/users/playlist`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            setPlayList(response.data);
+            // eslint-disable-next-line no-unused-vars
+        } catch (error) {
+            /* empty */
+        }
+    };
     useEffect(() => {
         setTimeout(() => {
             audioRef.current.ontimeupdate = () => {
@@ -124,6 +139,7 @@ const PlayerContextProvider = (props) => {
     }, [audioRef]);
 
     useEffect(() => {
+        fetchPlayList();
         getSongsData();
         getAlbumsData();
     }, []);
@@ -148,6 +164,8 @@ const PlayerContextProvider = (props) => {
         handleSearchSong,
         albumsData,
         setUser,
+        fetchPlayList,
+        playList,
         user,
     };
     return (

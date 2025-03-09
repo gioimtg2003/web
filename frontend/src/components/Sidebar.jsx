@@ -6,7 +6,7 @@ import SearchBar from "./SearchBar";
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const { user } = useContext(PlayerContext);
+    const { user, playList, playWithId } = useContext(PlayerContext);
 
     return (
         <div className="w-[25%] h-full p-2 flex-col gap-2 text-white hidden lg:flex">
@@ -33,8 +33,28 @@ const Sidebar = () => {
                         <p className="font-semibold">Your library</p>
                     </div>
                 </div>
-                {!user && (
+                {!user ? (
                     <p className="p-4 text-center">Login to view library</p>
+                ) : (
+                    <div className="w-full flex flex-col">
+                        {playList.map((item) => (
+                            <div
+                                key={item._id}
+                                className="p-4 flex items-center gap-3 cursor-pointer hover:bg-zinc-800"
+                                onClick={() => playWithId(item._id)}
+                            >
+                                <img
+                                    className="w-12"
+                                    src={item.image}
+                                    alt={item.name}
+                                />
+                                <div className="flex flex-col">
+                                    <p className="font-semibold">{item.name}</p>
+                                    <p className="text-zinc-400">{item.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 )}
             </div>
         </div>
