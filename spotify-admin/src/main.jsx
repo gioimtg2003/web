@@ -16,7 +16,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <ConfigProvider
                 theme={{
                     token: {
-                        colorPrimary: "#1DB954", // Spotify green color
+                        colorPrimary: "#1DB954",
                     },
                 }}
             >

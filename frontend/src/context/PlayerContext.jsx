@@ -142,7 +142,7 @@ const PlayerContextProvider = (props) => {
         fetchPlayList();
         getSongsData();
         getAlbumsData();
-    }, []);
+    }, [user?.id]);
     const contextValue = {
         audioRef,
         seekBar,

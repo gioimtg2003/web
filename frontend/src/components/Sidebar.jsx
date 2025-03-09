@@ -36,7 +36,7 @@ const Sidebar = () => {
                 {!user ? (
                     <p className="p-4 text-center">Login to view library</p>
                 ) : (
-                    <div className="w-full flex flex-col">
+                    <div className="w-full flex flex-col overflow-y-scroll">
                         {playList.map((item) => (
                             <div
                                 key={item._id}
