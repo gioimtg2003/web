@@ -7,6 +7,7 @@ const songSchema = new mongoose.Schema({
     image: { type: String, required: true },
     file: { type: String, required: true },
     duration: { type: String, required: true },
+    artist: { type: mongoose.Schema.Types.ObjectId, ref: "artist" }
 }, { timestamps: true });
 
 const songModel = mongoose.models.song || mongoose.model("song", songSchema);

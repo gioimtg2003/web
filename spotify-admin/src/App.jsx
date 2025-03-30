@@ -9,9 +9,9 @@ export const url = "http://localhost:4000";
 
 const App = () => {
     const { user } = useAuth();
-    // if (!user) {
-    //     window.location.href = "/login";
-    // }
+    if (!user) {
+        window.location.href = "/login";
+    }
     return (
         <div className="flex items-start min-h-screeen">
             <ToastContainer />

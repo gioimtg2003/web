@@ -3,6 +3,7 @@ import { assets } from "../assets/assets";
 import axios from "axios";
 import { url } from "../App";
 import { toast } from "react-toastify";
+import { Select } from "antd";
 
 const AddSong = () => {
     const [image, setImage] = useState(false);
@@ -138,18 +139,17 @@ const AddSong = () => {
 
             <div className="flex flex-col gap-2.5">
                 <p>Album</p>
-                <select
-                    onChange={(e) => setAlbum(e.target.value)}
+                <Select
+                    onChange={(e) => setAlbum(e)}
                     defaultValue={album}
-                    className="bg-transparaent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px]"
+                    className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px]"
                 >
-                    <option value="none">None</option>
-                    {albumData.map((item, index) => (
-                        <option key={index} value={item.name}>
-                            {item.name}
-                        </option>
+                    {(albumData ?? [])?.map((option, idx) => (
+                        <Select.Option key={idx} value={option.name}>
+                            {option.name}
+                        </Select.Option>
                     ))}
-                </select>
+                </Select>
             </div>
 
             <button

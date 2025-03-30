@@ -10,7 +10,7 @@ import {
     Typography,
 } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineEye, AiOutlineGlobal } from "react-icons/ai";
 import { BiPhoneCall, BiUser } from "react-icons/bi";
 import { MdDeleteOutline, MdMail } from "react-icons/md";
@@ -54,7 +54,7 @@ export default function ListUser() {
             title: "Name",
             dataIndex: "name",
             key: "name",
-            render: (text, record) => (
+            render: (text) => (
                 <Space>
                     <Avatar icon={<BiUser />} />
                     <Text strong>{text}</Text>

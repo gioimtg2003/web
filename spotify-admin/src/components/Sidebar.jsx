@@ -2,6 +2,7 @@ import React from "react";
 import { assets } from "../assets/assets";
 import { NavLink } from "react-router-dom";
 import { BiUserCircle } from "react-icons/bi";
+import { IoPersonAddOutline } from "react-icons/io5";
 
 const Sidebar = () => {
     return (
@@ -47,6 +48,20 @@ const Sidebar = () => {
                 >
                     <BiUserCircle size={20} />
                     <p className="hidden sm:block">List User</p>
+                </NavLink>
+                <NavLink
+                    to="list-artist"
+                    className="flex items-center gap-2.5 text-gray-800 bg-white border border-black p-2 pr-[max(8vw,10px)] drop-shadow-[-4px_4px_#00FF5B] text-sm font-medium"
+                >
+                    <BiUserCircle size={20} />
+                    <p className="hidden sm:block">List Artist</p>
+                </NavLink>
+                <NavLink
+                    to="add-artist"
+                    className="flex items-center gap-2.5 text-gray-800 bg-white border border-black p-2 pr-[max(8vw,10px)] drop-shadow-[-4px_4px_#00FF5B] text-sm font-medium"
+                >
+                    <IoPersonAddOutline size={20} />
+                    <p className="hidden sm:block">Add Artist</p>
                 </NavLink>
             </div>
         </div>

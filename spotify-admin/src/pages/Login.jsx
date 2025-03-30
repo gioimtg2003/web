@@ -1,7 +1,13 @@
 import { Button, Form, Input, Typography } from "antd";
+import axios from "axios";
+import { url } from "../App";
+
+import { useAuth } from "../../store/useAuth";
 
 const { Title } = Typography;
 export default function Login() {
+    const { setJWT, jwt, setUser } = useAuth();
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-200 p-4">
             <div className="w-full max-w-md p-8 rounded-lg shadow-lg bg-gray-50 shadow-gray-800">
@@ -23,33 +29,57 @@ export default function Login() {
                     initialValues={{ remember: true }}
                     layout="vertical"
                     size="large"
+                    onFinish={async (values) => {
+                        try {
+                            const res = await axios.post(
+                                `${url}/api/admin/login`,
+                                {
+                                    username: values.username,
+                                    password: values.password,
+                                }
+                            );
+                            if (res.data?.success) {
+                                setJWT(res.data.token);
+                                const getProfile = await axios.get(
+                                    `${url}/api/admin/me`,
+                                    {
+                                        headers: {
+                                            Authorization: `Bearer ${jwt}`,
+                                        },
+                                    }
+                                );
+                                if (getProfile.data) {
+                                    setUser(res.data);
+                                    window.location.href = "/";
+                                }
+                            }
+                        } catch (error) {
+                            console.log("Error:", error);
+                        }
+                    }}
                 >
                     <Form.Item
-                        name="email"
+                        name="username"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your email!",
-                            },
-                            {
-                                type: "email",
-                                message: "Please enter a valid email!",
+                                message: "Please input your username!",
                             },
                         ]}
                     >
-                        <Input placeholder="Email address" />
+                        <Input placeholder="Enter username" />
                     </Form.Item>
 
                     <Form.Item
-                        name="name"
+                        name="password"
                         rules={[
                             {
                                 required: true,
-                                message: "Please input your name!",
+                                message: "Please input your password!",
                             },
                         ]}
                     >
-                        <Input placeholder="Name" />
+                        <Input type="password" placeholder="Enter password" />
                     </Form.Item>
 
                     <Form.Item className="mt-12 px-8">

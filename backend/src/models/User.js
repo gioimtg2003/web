@@ -8,6 +8,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   favoriteSongs: [{ type: mongoose.Schema.Types.ObjectId, ref: "song" }],
+  history: [{ type: mongoose.Schema.Types.ObjectId, ref: "song" }],
 });
 
 // Pre-save hook for password hashing

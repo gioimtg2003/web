@@ -214,4 +214,48 @@ export const getFavoriteSongs = async (req, res) => {
   }
 }
 
+export const addHistory = async (req, res) => {
+  const { id } = req.user;
+  const { songId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Invalid user ID" });
+  }
+
+  try {
+    const user = await userModel.findById(id);
+    if
+      (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.history.includes(songId)) {
+      user.history = user.history.filter(item => item.toString() !== songId);
+    }
+    user.history.push(songId);
+    await user.save();
+    res.status(200).json({ message: "Song added to history" });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding song to history", error: error.message });
+  }
+}
+
+export const getHistory = async (req, res) => {
+  const { id } = req.user;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ error: "Invalid user ID" });
+  }
+
+  try {
+    const user = await userModel.findById(id).populate("history");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user.history);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching history", error: error.message });
+  }
+}
+
 

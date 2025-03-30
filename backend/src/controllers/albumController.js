@@ -8,13 +8,15 @@ const addAlbum = async (req, res) => {
         const desc = req.body.desc;
         const bgColour = req.body.bgColour;
         const imageFile = req.file;
+        const artist = req.body.artist;
         const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
 
         const albumData = {
             name,
             desc,
             bgColour,
-            image: imageUpload.secure_url
+            image: imageUpload.secure_url,
+            artist
 
         }
         const album = albumModel(albumData);
@@ -38,7 +40,6 @@ const listAlbum = async (req, res) => {
 
     try {
         const allAlbums = await albumModel.find({});
-        console.log(allAlbums);
         res.json({ success: true, albums: allAlbums });
 
     } catch (error) {
