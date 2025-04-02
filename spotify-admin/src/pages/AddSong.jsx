@@ -10,10 +10,21 @@ const AddSong = () => {
     const [song, setSong] = useState(false);
     const [name, setName] = useState("");
     const [desc, setDesc] = useState("");
-    const [album, setAlbum] = useState("none");
+    const [album, setAlbum] = useState();
     const [loading, setLoading] = useState(false);
     const [albumData, setAlbumData] = useState([]);
-
+    const [artist, setArtist] = useState();
+    const [listArtist, setListArtist] = useState([]);
+    const fetchArtistList = async () => {
+        try {
+            const response = await axios.get(`${url}/api/artist`);
+            if (response.status === 200) {
+                setListArtist(response.data?.data);
+            }
+        } catch {
+            console.log("Error occur");
+        }
+    };
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -26,6 +37,7 @@ const AddSong = () => {
             formData.append("album", album);
             formData.append("image", image);
             formData.append("audio", song);
+            formData.append("artist", artist);
 
             const response = await axios.post(`${url}/api/song/add`, formData);
 
@@ -36,6 +48,7 @@ const AddSong = () => {
                 setAlbum("none");
                 setImage(false);
                 setSong(false);
+                setArtist();
             } else {
                 toast.error("Something went wrong");
             }
@@ -59,6 +72,7 @@ const AddSong = () => {
 
     useEffect(() => {
         loadAlbumData();
+        fetchArtistList();
     }, []);
 
     return loading ? (
@@ -136,13 +150,29 @@ const AddSong = () => {
                     required
                 />
             </div>
+            <div className="flex flex-col gap-2.5 w-full">
+                <p>Artist</p>
+                <Select
+                    onChange={(e) => setArtist(e)}
+                    defaultValue={artist}
+                    placeholder="Select Artist"
+                    className=" w-[450px]"
+                >
+                    {(listArtist ?? [])?.map((option, idx) => (
+                        <Select.Option key={idx} value={option._id}>
+                            {option.name}
+                        </Select.Option>
+                    ))}
+                </Select>
+            </div>
 
             <div className="flex flex-col gap-2.5">
                 <p>Album</p>
                 <Select
                     onChange={(e) => setAlbum(e)}
                     defaultValue={album}
-                    className="bg-transparent outline-green-600 border-2 border-gray-400 p-2.5 w-[150px]"
+                    className=" w-[450px]"
+                    placeholder="Select Album"
                 >
                     {(albumData ?? [])?.map((option, idx) => (
                         <Select.Option key={idx} value={option.name}>

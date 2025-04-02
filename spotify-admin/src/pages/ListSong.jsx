@@ -9,7 +9,24 @@ import { Popconfirm } from "antd";
 const ListSong = () => {
     const [data, setData] = useState([]);
     const [editingSong, setEditingSong] = useState(null);
-    const [editForm, setEditForm] = useState({ name: "", album: "" });
+    const [editForm, setEditForm] = useState({
+        name: "",
+        album: "",
+        artist: "",
+    });
+    const [albumData, setAlbumData] = useState([]);
+    const [listArtist, setListArtist] = useState([]);
+
+    const fetchArtistList = async () => {
+        try {
+            const response = await axios.get(`${url}/api/artist`);
+            if (response.status === 200) {
+                setListArtist(response.data?.data);
+            }
+        } catch {
+            console.log("Error occur");
+        }
+    };
 
     // Fetch all songs from the backend
     const fetchSongs = async () => {
@@ -20,6 +37,18 @@ const ListSong = () => {
             }
         } catch {
             toast.error("Error occurred while fetching songs");
+        }
+    };
+    const loadAlbumData = async () => {
+        try {
+            const response = await axios.get(`${url}/api/album/list`);
+            if (response.data.success) {
+                setAlbumData(response.data.albums);
+            } else {
+                toast.error("Unable to load albums data");
+            }
+        } catch {
+            toast.error("error occur");
         }
     };
 
@@ -43,7 +72,11 @@ const ListSong = () => {
     // Handle click on "Edit" button
     const handleEditClick = (song) => {
         setEditingSong(song._id);
-        setEditForm({ name: song.name, album: song.album });
+        setEditForm({
+            name: song.name,
+            album: song.album,
+            artist: song?.artist?._id,
+        });
     };
 
     // Handle changes in edit input fields
@@ -58,6 +91,7 @@ const ListSong = () => {
                 id: editingSong,
                 name: editForm.name,
                 album: editForm.album,
+                artist: editForm.artist,
             });
 
             if (response.data.success) {
@@ -73,6 +107,8 @@ const ListSong = () => {
     // Fetch songs on component mount
     useEffect(() => {
         fetchSongs();
+        loadAlbumData();
+        fetchArtistList();
     }, []);
 
     return (
@@ -80,17 +116,18 @@ const ListSong = () => {
             <p className="text-xl font-semibold">All Songs List</p>
             <br />
             <div>
-                <div className="sm:grid hidden grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100">
+                <div className="sm:grid hidden grid-cols-[0.5fr_1fr_1fr_1fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100">
                     <b>Image</b>
                     <b>Name</b>
                     <b>Album</b>
+                    <b>Artist</b>
                     <b>Duration</b>
                     <b>Action</b>
                 </div>
                 {data.map((item, index) => (
                     <div
                         key={index}
-                        className="grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5"
+                        className="grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.5fr_1fr_1fr_1fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5"
                     >
                         <img className="w-12" src={item.image} alt="" />
                         {editingSong === item._id ? (
@@ -102,18 +139,38 @@ const ListSong = () => {
                                     onChange={handleEditChange}
                                     className="text-black border border-gray-300 rounded-md px-2"
                                 />
-                                <input
-                                    type="text"
+
+                                <select
                                     name="album"
                                     value={editForm.album}
                                     onChange={handleEditChange}
                                     className="text-black border border-gray-300 rounded-md px-2"
-                                />
+                                >
+                                    {(albumData ?? []).map((option, idx) => (
+                                        <option key={idx} value={option.name}>
+                                            {option.name}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                <select
+                                    name="artist"
+                                    value={editForm.artist}
+                                    onChange={handleEditChange}
+                                    className="text-black border border-gray-300 rounded-md px-2"
+                                >
+                                    {(listArtist ?? []).map((option, idx) => (
+                                        <option key={idx} value={option._id}>
+                                            {option.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </>
                         ) : (
                             <>
                                 <p>{item.name}</p>
                                 <p>{item.album}</p>
+                                <p>{item.artist?.name ?? ""}</p>
                             </>
                         )}
                         <p>{item.duration}</p>

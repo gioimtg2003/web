@@ -15,8 +15,6 @@ export const login = async (req, res) => {
 
     try {
         const user = await adminModel.findOne({ username });
-        console.log('Database user data:', user);
-
         if (!user) {
             return res.status(400).json({ success: false, message: 'Invalid user or password' });
         }

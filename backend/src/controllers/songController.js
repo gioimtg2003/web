@@ -7,6 +7,7 @@ const addSong = async (req, res) => {
         const name = req.body.name;
         const desc = req.body.desc;
         const album = req.body.album;
+        const artist = req.body.artist;
         const audioFile = req.files.audio[0];
         const imageFile = req.files.image[0];
         const audioUpload = await cloudinary.uploader.upload(audioFile.path, { resource_type: "video" });
@@ -20,6 +21,7 @@ const addSong = async (req, res) => {
             image: imageUpload.secure_url,
             file: audioUpload.secure_url,
             duration,
+            artist,
         }
 
         const song = songModel(songData);
@@ -34,7 +36,7 @@ const addSong = async (req, res) => {
 
 const listSong = async (req, res) => {
     try {
-        const allSongs = await songModel.find({});
+        const allSongs = await songModel.find({}).populate('artist');
         res.json({ success: true, songs: allSongs });
 
     } catch (error) {
@@ -54,8 +56,8 @@ const removeSong = async (req, res) => {
 
 const updateSong = async (req, res) => {
     try {
-        const { id, name, album } = req.body;
-        await songModel.findByIdAndUpdate(id, { name, album });
+        const { id, name, album, artist } = req.body;
+        await songModel.findByIdAndUpdate(id, { name, album, artist });
         res.json({ success: true, message: 'Song updated successfully' });
     } catch (error) {
         res.json({ success: false, message: 'Failed to update song' });

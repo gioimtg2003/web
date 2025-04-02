@@ -53,14 +53,19 @@ const DisplayAlbum = () => {
                         key={index}
                         className="grid grid-cols-4 gap-2 p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b] cursor-pointer"
                     >
-                        <p className="text-white">
+                        <p className="text-white flex items-center  ">
                             <b className="mr-4 text-[#a7a7a7]">{index + 1}</b>
                             <img
                                 className="inline w-10 mr-5"
                                 src={item.image}
                                 alt=""
                             />
-                            {item.name}
+                            <div className="flex flex-col items-center gap-y-1">
+                                <p> {item.name}</p>
+                                <p className="text-gray-400">
+                                    {item.artist?.name ?? ""}
+                                </p>
+                            </div>
                         </p>
                         <p className="text-[15px]">{albumData.name}</p>
                         <p className="text-[15px] hidden sm:block">
